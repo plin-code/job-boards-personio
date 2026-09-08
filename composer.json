@@ -26,7 +26,7 @@
         "ext-simplexml": "*",
         "guzzlehttp/guzzle": "^7.8",
         "illuminate/contracts": "^12.0||^13.0",
-        "plin-code/job-boards-core": "^0.2",
+        "plin-code/job-boards-core": "^0.2||^0.3",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/log": "^2.0||^3.0",
@@ -40,12 +40,6 @@
         "pestphp/pest-plugin-laravel": "^3.0||^4.0",
         "phpstan/extension-installer": "^1.4"
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/plin-code/job-boards-core.git"
-        }
-    ],
     "autoload": {
         "psr-4": {
             "PlinCode\\JobBoards\\Personio\\": "src/"
