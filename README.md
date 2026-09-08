@@ -101,12 +101,6 @@ $this->http->withTimeout($timeout)->get($url, ['language' => $withLanguage ? 'en
 
 The retry URL is `https://{slug}.jobs.personio.de/xml` with no query string at all, and a test asserts exactly that. The retry happens only in `fetchJobsForCompany()`. `validateSlug()` does not retry: an empty board is still a real board, and it validates under its own slug.
 
-## Timeouts
-
-`validateSlug()` uses the shorter 15 second budget, `fetchJobsForCompany()` the full 30, and the language retry spends the full 30 again.
-
-PSR-18 has no notion of a timeout, so core's `HttpClient::withTimeout()` is only honoured by clients implementing `PlinCode\JobBoards\Http\SupportsTimeout`. Guzzle's PSR-18 client does not, so these numbers are a request the transport may ignore. If timeouts matter to you, build the Guzzle client with `['timeout' => 30]` and bind it yourself, or wrap it in a small `SupportsTimeout` adapter.
-
 ## Slugs land in the hostname
 
 Every other connector in the family puts the slug in the path, where percent encoding is enough. Personio puts it in the host, where a `/` or an `@` is not escaped but silently retargets the request: `evil.com/x` would produce `https://evil.com/x.jobs.personio.de/xml`. Slugs are therefore checked against a host label pattern (`[A-Za-z0-9]`, with `.` and `-` allowed in the middle) before any request goes out. A slug that fails logs a warning and yields an empty list or a `null`, like any other failure.
@@ -133,17 +127,21 @@ Every record carries `company_slug`. With no logger passed, a `NullLogger` is us
 
 Unlike the other connectors in the family, `validateSlug()` here shares the fetch path and therefore logs the same records: Personio has no separate account endpoint to keep quiet about. It still returns `null` for every failure, including a dead connection.
 
+## Timeouts
+
+`validateSlug()` uses the shorter 15 second budget, `fetchJobsForCompany()` the full 30, and the language retry spends the full 30 again.
+
+PSR-18 has no notion of a timeout, so core's `HttpClient::withTimeout()` is only honoured by clients implementing `PlinCode\JobBoards\Http\SupportsTimeout`. Guzzle's PSR-18 client does not, so these numbers are a request the transport may ignore. If timeouts matter to you, build the Guzzle client with `['timeout' => 30]` and bind it yourself, or wrap it in a small `SupportsTimeout` adapter.
+
 ## Depending on core
 
-During local development this package resolves core through a path repository:
-
 ```json
-"repositories": [
-    { "type": "path", "url": "../job-boards-core", "options": { "symlink": true, "versions": { "plin-code/job-boards-core": "0.2.0" } } }
-]
+"require": {
+    "plin-code/job-boards-core": "^0.2||^0.3"
+}
 ```
 
-The `versions` option is what lets the published constraint `"plin-code/job-boards-core": "^0.2"` resolve against a local checkout sitting on `main`, which composer would otherwise see only as `dev-main`. Once core is on Packagist, drop the whole `repositories` block; the constraint already says the right thing.
+Core is on Packagist, so that constraint is all this package needs: there is no `repositories` block to carry. Do **not** commit a `path` repository pointing at a sibling checkout of core. It resolves against the layout of one machine, and the package then fails to install from a fresh clone anywhere else.
 
 ## Development
 
