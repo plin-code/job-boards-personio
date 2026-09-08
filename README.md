@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/plin-code/job-boards-personio/main/art/banner.png" alt="Job Boards Personio">
+</p>
+
 # Job Boards Personio
 
 Personio connector for the [plin-code](https://github.com/plin-code) job boards family. Personio is the odd one out: the board is an XML feed, not JSON, and the slug is a subdomain rather than a path segment.
