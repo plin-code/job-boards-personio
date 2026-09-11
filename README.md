@@ -4,6 +4,13 @@
 
 # Job Boards Personio
 
+<p align="center">
+    <a href="https://packagist.org/packages/plin-code/job-boards-personio"><img src="https://img.shields.io/packagist/v/plin-code/job-boards-personio.svg?style=flat-square" alt="Packagist"></a>
+    <a href="https://packagist.org/packages/plin-code/job-boards-personio"><img src="https://img.shields.io/packagist/php-v/plin-code/job-boards-personio.svg?style=flat-square" alt="PHP from Packagist"></a>
+    <a href="https://packagist.org/packages/plin-code/job-boards-personio"><img src="https://badge.laravel.cloud/badge/plin-code/job-boards-personio?style=flat" alt="Laravel versions"></a>
+    <a href="https://packagist.org/packages/plin-code/job-boards-personio"><img src="https://img.shields.io/packagist/dt/plin-code/job-boards-personio.svg?style=flat-square" alt="Total Downloads"></a>
+</p>
+
 Personio connector for the [plin-code](https://github.com/plin-code) job boards family. Personio is the odd one out: the board is an XML feed, not JSON, and the slug is a subdomain rather than a path segment.
 
 ```
